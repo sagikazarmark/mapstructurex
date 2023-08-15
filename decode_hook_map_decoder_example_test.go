@@ -63,19 +63,19 @@ func ExampleMapDecoderHookFunc() {
 }
 
 // Config is a struct that implements a custom decoding function.
-// The embedded {Fooer} interface provides polymorphism.
-// Alternative implementations of {Fooer} can provide different configurations.
+// The embedded [Fooer] interface provides polymorphism.
+// Alternative implementations of [Fooer] can provide different configurations.
 type Config struct {
 	Fooer
 }
 
-// Fooer is an interface that provides polymorphism for {Config}.
+// Fooer is an interface that provides polymorphism for [Config].
 type Fooer interface {
 	Foo() string
 }
 
 // RawConfig mimics the structure of configuration (for example in a config file).
-// Type determines the {Fooer} implementation, Config is the input for the implementation.
+// Type determines the [Fooer] implementation, Config is the input for the implementation.
 type RawConfig struct {
 	Type   string
 	Config map[string]any
@@ -112,7 +112,7 @@ func (c *Config) DecodeMap(v map[string]any) error {
 	return nil
 }
 
-// ConfigBar is a {Fooer}.
+// ConfigBar is a [Fooer].
 type ConfigBar struct {
 	Bar string
 }
@@ -121,7 +121,7 @@ func (c ConfigBar) Foo() string {
 	return c.Bar
 }
 
-// ConfigBaz is a {Fooer}.
+// ConfigBaz is a [Fooer].
 type ConfigBaz struct {
 	Baz string
 }

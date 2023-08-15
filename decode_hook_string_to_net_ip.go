@@ -10,8 +10,8 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-// StringToNetIPAddrHookFunc returns a DecodeHookFunc that converts
-// strings to netip.Addr.
+// StringToNetIPAddrHookFunc returns a [mapstructure.DecodeHookFunc] that converts
+// strings to [netip.Addr].
 //
 // Will be removed once https://github.com/mitchellh/mapstructure/pull/315 is merged.
 func StringToNetIPAddrHookFunc() mapstructure.DecodeHookFunc {
@@ -32,8 +32,8 @@ func StringToNetIPAddrHookFunc() mapstructure.DecodeHookFunc {
 	}
 }
 
-// StringToNetIPAddrPortHookFunc returns a DecodeHookFunc that converts
-// strings to netip.AddrPort.
+// StringToNetIPAddrPortHookFunc returns a [mapstructure.DecodeHookFunc] that converts
+// strings to [netip.AddrPort].
 //
 // Will be removed once https://github.com/mitchellh/mapstructure/pull/315 is merged.
 func StringToNetIPAddrPortHookFunc() mapstructure.DecodeHookFunc {

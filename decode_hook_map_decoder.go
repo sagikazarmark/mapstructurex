@@ -11,8 +11,8 @@ type MapDecoder interface {
 	DecodeMap(map[string]any) error
 }
 
-// MapDecoderHookFunc returns a {mapstructure.DecodeHookFunc} that applies maps to the DecodeMap function,
-// when the target type implements the {MapDecoder} interface.
+// MapDecoderHookFunc returns a [mapstructure.DecodeHookFunc] that applies maps to the DecodeMap function,
+// when the target type implements the [MapDecoder] interface.
 func MapDecoderHookFunc() mapstructure.DecodeHookFunc {
 	return func(
 		f reflect.Type,
