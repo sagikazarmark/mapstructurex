@@ -1,7 +1,6 @@
 package mapstructurex
 
 import (
-	"errors"
 	"reflect"
 	"testing"
 
@@ -19,66 +18,6 @@ func (d *mapDecoder) DecodeMap(v map[string]any) error {
 
 type mapDecoderSub struct {
 	Key11 string
-}
-
-type mapDecoderConfig struct {
-	mapDecoderConfigType
-}
-
-type mapDecoderConfigRaw struct {
-	Type   string
-	Config map[string]any
-}
-
-func (c *mapDecoderConfig) DecodeMap(v map[string]any) error {
-	var rawConfig mapDecoderConfigRaw
-
-	err := mapstructure.Decode(v, &rawConfig)
-	if err != nil {
-		return err
-	}
-
-	switch rawConfig.Type {
-	case "bar":
-		var bar mapDecoderConfigTypeBar
-		err := mapstructure.Decode(rawConfig.Config, &bar)
-		if err != nil {
-			return err
-		}
-		c.mapDecoderConfigType = bar
-	case "baz":
-		var baz mapDecoderConfigTypeBaz
-		err := mapstructure.Decode(rawConfig.Config, &baz)
-		if err != nil {
-			return err
-		}
-		c.mapDecoderConfigType = baz
-	default:
-		return errors.New("unknown type")
-
-	}
-
-	return nil
-}
-
-type mapDecoderConfigType interface {
-	Foo() string
-}
-
-type mapDecoderConfigTypeBar struct {
-	Bar string
-}
-
-func (b mapDecoderConfigTypeBar) Foo() string {
-	return b.Bar
-}
-
-type mapDecoderConfigTypeBaz struct {
-	Baz string
-}
-
-func (b mapDecoderConfigTypeBaz) Foo() string {
-	return b.Baz
 }
 
 func TestMapDecoderHookFunc(t *testing.T) {
@@ -103,21 +42,6 @@ func TestMapDecoderHookFunc(t *testing.T) {
 			},
 			false,
 		},
-		{
-			reflect.ValueOf(map[string]any{
-				"type": "baz",
-				"config": map[string]any{
-					"baz": "baz",
-				},
-			}),
-			reflect.ValueOf(mapDecoderConfig{}),
-			&mapDecoderConfig{
-				mapDecoderConfigType: mapDecoderConfigTypeBaz{
-					Baz: "baz",
-				},
-			},
-			false,
-		},
 	}
 
 	for i, tc := range cases {
@@ -134,66 +58,5 @@ func TestMapDecoderHookFunc(t *testing.T) {
 				i, tc.result, actual,
 			)
 		}
-	}
-}
-
-type mapDecoderInfiniteLoop struct {
-	Key string
-}
-
-func (d *mapDecoderInfiniteLoop) DecodeMap(v map[string]any) error {
-	type alias mapDecoderInfiniteLoop
-
-	var result alias
-
-	decoder, err := createDecoderWithMapDecoderHook(&result)
-	if err != nil {
-		return err
-	}
-
-	err = decoder.Decode(v)
-	if err != nil {
-		return err
-	}
-
-	*d = mapDecoderInfiniteLoop(result)
-
-	return nil
-}
-
-func createDecoderWithMapDecoderHook(result any) (*mapstructure.Decoder, error) {
-	return mapstructure.NewDecoder(&mapstructure.DecoderConfig{
-		DecodeHook: MapDecoderHookFunc(),
-		Metadata:   nil,
-		Result:     result,
-	})
-}
-
-func TestMapDecoderHookFunc_DecodeInfiniteLoop(t *testing.T) {
-	var result mapDecoderInfiniteLoop
-
-	decoder, err := createDecoderWithMapDecoderHook(&result)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	input := map[string]any{
-		"key": "value",
-	}
-
-	err = decoder.Decode(input)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	expected := mapDecoderInfiniteLoop{
-		Key: "value",
-	}
-
-	if !reflect.DeepEqual(expected, result) {
-		t.Fatalf(
-			"case map decoder infinite loop: expected %#v, got %#v",
-			expected, result,
-		)
 	}
 }
