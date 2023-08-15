@@ -51,14 +51,6 @@
               go.package = pkgs.go_1_19;
             };
           };
-
-          ci_1_18 = {
-            imports = [ devenv.shells.ci ];
-
-            languages = {
-              go.package = pkgs.go_1_18;
-            };
-          };
         };
       };
     };
