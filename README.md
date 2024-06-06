@@ -1,4 +1,4 @@
-# Extensions for [mapstructure](https://github.com/mitchellh/mapstructure)
+# Extensions for [mapstructure](https://github.com/go-viper/mapstructure)
 
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/sagikazarmark/mapstructurex/ci.yaml?style=flat-square)](https://github.com/sagikazarmark/mapstructurex/actions/workflows/ci.yaml)
 [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/mod/github.com/sagikazarmark/mapstructurex)

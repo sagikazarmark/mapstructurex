@@ -3,7 +3,7 @@ package mapstructurex
 import (
 	"reflect"
 
-	"github.com/mitchellh/mapstructure"
+	"github.com/go-viper/mapstructure/v2"
 )
 
 // MapDecoder is the interface implemented by an object that can decode a raw map representation of itself.

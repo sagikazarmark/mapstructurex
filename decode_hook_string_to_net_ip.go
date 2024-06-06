@@ -7,7 +7,7 @@ import (
 	"net/netip"
 	"reflect"
 
-	"github.com/mitchellh/mapstructure"
+	"github.com/go-viper/mapstructure/v2"
 )
 
 // StringToNetIPAddrHookFunc returns a [mapstructure.DecodeHookFunc] that converts
